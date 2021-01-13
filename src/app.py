@@ -20,14 +20,15 @@ def grafico_comparativo(dados_2019, dados_2020, causa, uf='BRASIL'):
         lista = [total_2019.loc[causa], total_2020.loc[causa]]
 
     elif causa != '' and uf != '':
-        if causa =='COVID':
-            total_2019 = 0
-        else:
-            total_2019 = dados_2019.groupby(['uf','tipo_doenca'])['total'].sum()
-            
+
+        total_2019 = dados_2019.groupby(['uf','tipo_doenca'])['total'].sum()
+
         total_2020 = dados_2020.groupby(['uf','tipo_doenca'])['total'].sum()
-        
-        lista = [total_2019.loc[uf, causa], total_2020.loc[uf, causa]]
+
+        if causa =='COVID':
+            lista = [0, total_2020.loc[uf, causa]]
+        else:        
+            lista = [total_2019.loc[uf, causa], total_2020.loc[uf, causa]]
     
     elif causa == '' and uf != '':
         total_2019 = dados_2019.groupby(['uf'])['total'].sum()
